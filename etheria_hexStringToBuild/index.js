@@ -288,7 +288,7 @@ function decompressHexStringToRawData(hexString) {
 	console.log("detectedAlgoCode=" + detectedAlgoCode);
 
 	var detectedByteSize = 0;
-	if (detectedPaletteCode < 7) // first 7 are reserved as 4-bit palettes
+	if (detectedPaletteCode < 15) // first 7 are reserved as 4-bit palettes
 		detectedByteSize = 4;
 	else
 		detectedByteSize = 8;
@@ -582,8 +582,27 @@ const PALETTE_DATA =  // 0=transparent,1=black,2-7=rgboyc,8=gray,9-14=flex,15=wh
 
 			{ "name": "white", "hexString": "#ffffff", "paletteIndex": 15 },
 		],
-		[	// PALETTE_DATA[7] = punks
+		[	// PALETTE_DATA[7] = earth tones
+			{ "name": "transparent", "hexString": null, "paletteIndex": 0 },
 
+			{ "name": "pale light green", "hexString": "#aadb74", "paletteIndex": 1 },
+			{ "name": "olive", "hexString": "#82a859", "paletteIndex": 2 },
+			{ "name": "slightly pale green", "hexString": "#3d8a3d", "paletteIndex": 3 },
+			{ "name": "darkest green", "hexString": "#255525", "paletteIndex": 4 },
+			{ "name": "green", "hexString": "#168700", "paletteIndex": 5 },
+			{ "name": "verdant green", "hexString": "#6eb718", "paletteIndex": 6 },
+			{ "name": "lime", "hexString": "#b9fc09", "paletteIndex": 7 },
+
+			{ "name": "very light gray", "hexString": "#cccccc", "paletteIndex": 8 }, 
+
+			{ "name": "wet concrete", "hexString": "#686868", "paletteIndex": 9 }, 
+			{ "name": "blue", "hexString": "#152cb5", "paletteIndex": 10 },
+			{ "name": "sky blue", "hexString": "#abd0fe", "paletteIndex": 11 },
+			{ "name": "corn yellow", "hexString": "#e6ca31", "paletteIndex": 12 },
+			{ "name": "dark mustard", "hexString": "#a78a49", "paletteIndex": 13 },
+			{ "name": "khaki", "hexString": "#cac48c", "paletteIndex": 14 },
+
+			{ "name": "white", "hexString": "#ffffff", "paletteIndex": 15 },
 		],
 		[	// PALETTE_DATA[8] = punks
 
