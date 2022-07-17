@@ -8,6 +8,8 @@ const pako = require('pako');
 const center_out_mapping = require("./json/mapping_center-out.json");
 const south_north_mapping = require("./json/mapping_south-north.json");
 
+const ROUNDING_AMOUNT = 100; // 1 = whole numbers only
+
 function isValidHexadecimal(str) {
 	return str.match(/^[a-f0-9]{2,}$/i) !== null;
 }
@@ -1377,11 +1379,11 @@ function generateHexShapeFromChunk(chunkIndices, newColorArray, detectedPaletteC
 	unrelatedChunks = [];
 
 	var extrudeSettings = {
-		depth: Math.round(blockextrude * extrusionMultiple*100)/100, 
-//		steps: 1, // default is 1 already, commenting this out reduces size
-//		material: 1, // not sure this is even a valid param
-//		extrudeMaterial: 0, // not sure this is even a valid param and if 0 does that mean we don't want to extrude the material? I would think that we do.
-//		bevelEnabled: false
+		depth: Math.round(blockextrude * extrusionMultiple*ROUNDING_AMOUNT)/ROUNDING_AMOUNT, 
+//		steps: 1,
+//		material: 1,
+//		extrudeMaterial: 0,
+//		bevelEnabled: false,
 	};
 
 	//	console.log("chunkIndices[0]=" + chunkIndices[0]);
@@ -1397,6 +1399,7 @@ function generateHexShapeFromChunk(chunkIndices, newColorArray, detectedPaletteC
 	hexShapeWithMetadata.lowestz = lowestz;
 	return hexShapeWithMetadata;
 }
+
 
 
 exports.handler = async (event) => {
@@ -1494,23 +1497,90 @@ exports.handler = async (event) => {
 		{
 			inner = 0;
 			while (inner < hexShapes[shapeIndex].hexShape.shape.length) {
-				hexShapes[shapeIndex].hexShape.shape[inner].x = Math.round(hexShapes[shapeIndex].hexShape.shape[inner].x * 100) / 100;
-				hexShapes[shapeIndex].hexShape.shape[inner].y = Math.round(hexShapes[shapeIndex].hexShape.shape[inner].y * 100) / 100;
+				hexShapes[shapeIndex].hexShape.shape[inner].x = Math.round(hexShapes[shapeIndex].hexShape.shape[inner].x * ROUNDING_AMOUNT) / ROUNDING_AMOUNT;
+				hexShapes[shapeIndex].hexShape.shape[inner].y = Math.round(hexShapes[shapeIndex].hexShape.shape[inner].y * ROUNDING_AMOUNT) / ROUNDING_AMOUNT;
 				inner++;
 			}
 			outer = 0;
 			while (outer < hexShapes[shapeIndex].hexShape.holes.length) {
 				inner = 0;
 				while (inner < hexShapes[shapeIndex].hexShape.holes[outer].length) {
-					hexShapes[shapeIndex].hexShape.holes[outer][inner].x = Math.round(hexShapes[shapeIndex].hexShape.holes[outer][inner].x * 100) / 100;
-					hexShapes[shapeIndex].hexShape.holes[outer][inner].y = Math.round(hexShapes[shapeIndex].hexShape.holes[outer][inner].y * 100) / 100;
+					hexShapes[shapeIndex].hexShape.holes[outer][inner].x = Math.round(hexShapes[shapeIndex].hexShape.holes[outer][inner].x * ROUNDING_AMOUNT) / ROUNDING_AMOUNT;
+					hexShapes[shapeIndex].hexShape.holes[outer][inner].y = Math.round(hexShapes[shapeIndex].hexShape.holes[outer][inner].y * ROUNDING_AMOUNT) / ROUNDING_AMOUNT;
 					inner++;
 				}
 				outer++;
 			}
 			shapeIndex++;
 		}
-		
+		//		console.log("hexShapes, post-rounding=" + JSON.stringify(hexShapes));
+		// now put in Dynamo
+		//		var txIndexDecimals = (1 * event.params.querystring.transactionIndex) / ROUNDING_AMOUNT;
+//		var compressed = pako.deflate(JSON.stringify(hexShapes), { to: 'string' });
+//		console.log("DONE compressed.length=" + compressed.length);
+		//		var params = {
+		//			TableName: 'EtheriaBuilds',
+		//			Item: {
+		//				'tileIndex': event.params.querystring.tileIndex * 1,
+		//				'blockNumberAndTxIndex': (1 * event.params.querystring.blockNumber) + txIndexDecimals,
+		//				'build': compressed,
+		//				'nameField': hexString
+		//			}
+		//		};
+
+		//			dynamoDB.put(params, function(err, data) {
+		//				if (err) {
+		//					console.log(utils.getHrDate() + " doNameChange Insertion into EtheriaBuilds Error", err);
+		//				}
+		//				else {
+		//					console.log(utils.getHrDate() + " put success.");
+		//
+		//					// update buildIndices globalVar. This is the running list of the indices with actual builds on them
+		//					// so we don't have to grab every build for every tile everytime the explorer or builder is loaded
+		//					var params = {
+		//						TableName: "EtheriaGlobalVars",
+		//						Key: {
+		//							"name": "buildIndices"
+		//						}
+		//					};
+		//
+		//					dynamoDB.get(params, function(err, globalVarEntry) {
+		//						if (err) {
+		//							console.log("Error", err);
+		//							//			reject(err);
+		//						}
+		//						else {
+		//							console.log("Success", JSON.stringify(globalVarEntry));
+		//							var buildIndices = JSON.parse(globalVarEntry.Item.value);
+		//							var bI = 0;
+		//							while (bI < buildIndices.length) {
+		//								console.log("buildIndices[" + bI + "]=" + buildIndices[bI]);
+		//								bI++;
+		//							}
+		//							var buildIndicesSet = new Set(buildIndices); // convert to set to eliminate dupes
+		//							buildIndicesSet.add(tileIndex * 1);
+		//							buildIndices = [...buildIndicesSet]; // back to array
+		//							var params2 = {
+		//								TableName: "EtheriaGlobalVars",
+		//								Item: {
+		//									"name": "buildIndices",
+		//									"value": JSON.stringify(buildIndices)
+		//								}
+		//							};
+		//							dynamoDB.put(params2, function(err, data) { // update
+		//								if (err) {
+		//									console.log(utils.getHrDate() + " error updating buildIndices globalVar", err);
+		//								}
+		//								else {
+		//									console.log(utils.getHrDate() + " success putting buildIndices globalVar");
+		//								}
+		//							});
+		//						}
+		//					});
+		//
+		//				}
+		//			});
+
 		resolve(hexShapes);
 	});
 
