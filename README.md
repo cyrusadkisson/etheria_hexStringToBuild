@@ -91,13 +91,13 @@ Note: All the build data values are truncated to thousandths places to reduce bu
 ```
 
 ## Configuration & requirements
-
+```
 Memory - 1769 MB
 Ephemeral storage - 512MB
 Timeout - 15 min 0 sec (the heaviest builds of 2021-2022 render in testing in ~1 min under these settings. 15 is likely huge overkill.)
 Runtime - Node 14.x
 Architecture - arm64
-
+```
 Libraries:
 ```
 {
@@ -153,20 +153,22 @@ else
 	detectedHeight = detectedHeightCode * 16; // 1=16,2=32, up to 128
 ```
 In the case of the bridge build:
+```
 0x52 = 82
 82 / 16 = 5 (duh)
 5 * 16 = height 80
-
+```
 The "algo" (how the data is rearranged before compression) is determined in this manner:
 ```
 var detectedAlgoCode = leadingByte1 % 16;
 ```
-where 
+where
+``` 
 0 = TallSN
 1 = FlatSprial (inside-out)
 2 = TallNS
 3 = FlatSpiral (outside-in)
-
+```
 The compression algorithm tries each of these data rearrangements before pako to see which one produces the smallest result. The stored algo code lets would-be decompressors know how to rearrange into the standard form after pako-inflation.
 
 In the case of the bride build, 0x52 % 16 = 2 = TallNS
