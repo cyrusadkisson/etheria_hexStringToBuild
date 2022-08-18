@@ -177,7 +177,7 @@ This is too complicated to explain here, but also semi-self-explanatory from the
 In short, we start from the bottom layer and look for voxels of the same color and then upwards for more voxels of the same color. These extrudable chunks of color become the "hexShapes" that get returned from this lambda/function.
 We also have to look for "holes" within these chunks and extrude those as well, sometimes in another color and sometimes actually-empty holes.
 
-Hopefully this has been enough information to be able to decompress Etheria builds!
+Hopefully this has been enough information to be able to decompress Etheria builds!!
 
 
                               
