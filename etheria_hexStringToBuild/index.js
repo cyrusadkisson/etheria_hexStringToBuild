@@ -64,131 +64,21 @@ function convertUint8ArrayTo4BitByteArray(my16array, targetLength) {
 	return fourbitbytearray;
 }
 
-function convertUint8ArrayToHexString(my8array) {
-	var x = 0;
-	var resultingstring = "";
-	while (x < my8array.length) {
-		var first4 = Math.floor(my8array[x] / 16);
-		switch (first4) {
-			case 0:
-				resultingstring = resultingstring + "0";
-				break;
-			case 1:
-				resultingstring = resultingstring + "1";
-				break;
-			case 2:
-				resultingstring = resultingstring + "2";
-				break;
-			case 3:
-				resultingstring = resultingstring + "3";
-				break;
-			case 4:
-				resultingstring = resultingstring + "4";
-				break;
-			case 5:
-				resultingstring = resultingstring + "5";
-				break;
-			case 6:
-				resultingstring = resultingstring + "6";
-				break;
-			case 7:
-				resultingstring = resultingstring + "7";
-				break;
-			case 8:
-				resultingstring = resultingstring + "8";
-				break;
-			case 9:
-				resultingstring = resultingstring + "9";
-				break;
-			case 10:
-				resultingstring = resultingstring + "a";
-				break;
-			case 11:
-				resultingstring = resultingstring + "b";
-				break;
-			case 12:
-				resultingstring = resultingstring + "c";
-				break;
-			case 13:
-				resultingstring = resultingstring + "d";
-				break;
-			case 14:
-				resultingstring = resultingstring + "e";
-				break;
-			case 15:
-				resultingstring = resultingstring + "f";
-				break;
-		}
-		var last4 = my8array[x] % 16;
-		//		console.log("last4:" + last4);
-		switch (last4) {
-			case 0:
-				resultingstring = resultingstring + "0";
-				break;
-			case 1:
-				resultingstring = resultingstring + "1";
-				break;
-			case 2:
-				resultingstring = resultingstring + "2";
-				break;
-			case 3:
-				resultingstring = resultingstring + "3";
-				break;
-			case 4:
-				resultingstring = resultingstring + "4";
-				break;
-			case 5:
-				resultingstring = resultingstring + "5";
-				break;
-			case 6:
-				resultingstring = resultingstring + "6";
-				break;
-			case 7:
-				resultingstring = resultingstring + "7";
-				break;
-			case 8:
-				resultingstring = resultingstring + "8";
-				break;
-			case 9:
-				resultingstring = resultingstring + "9";
-				break;
-			case 10:
-				resultingstring = resultingstring + "a";
-				break;
-			case 11:
-				resultingstring = resultingstring + "b";
-				break;
-			case 12:
-				resultingstring = resultingstring + "c";
-				break;
-			case 13:
-				resultingstring = resultingstring + "d";
-				break;
-			case 14:
-				resultingstring = resultingstring + "e";
-				break;
-			case 15:
-				resultingstring = resultingstring + "f";
-				break;
-		}
-		x++;
-	}
-	return resultingstring;
-}
+// compression unused in this Lambda obviously, but each is included here as the other half of its (used) decompression
 
-function convertTallSNColorArrayToFlatSpiralColorArray(tallSNColorArray, height) {
-	var i = 0;
-	var flatSpiralColorArray = new Array(9901 * height);
-	var z, calculatedi, pI;
-	while (i < tallSNColorArray.length) {
-		z = Math.floor(i / 9901);
-		pI = i % 9901;
-		calculatedi = getIndexFromXYZH(center_out_mapping[pI][0], center_out_mapping[pI][1], z, height);
-		flatSpiralColorArray[i] = tallSNColorArray[calculatedi];
-		i++;
-	}
-	return flatSpiralColorArray;
-}
+//function convertTallSNColorArrayToFlatSpiralColorArray(tallSNColorArray, height) {
+//	var i = 0;
+//	var flatSpiralColorArray = new Array(9901 * height);
+//	var z, calculatedi, pI;
+//	while (i < tallSNColorArray.length) {
+//		z = Math.floor(i / 9901);
+//		pI = i % 9901;
+//		calculatedi = getIndexFromXYZH(center_out_mapping[pI][0], center_out_mapping[pI][1], z, height);
+//		flatSpiralColorArray[i] = tallSNColorArray[calculatedi];
+//		i++;
+//	}
+//	return flatSpiralColorArray;
+//}
 
 function convertFlatSpiralColorArrayToTallSNColorArray(flatSpiralColorArray, height) {
 	var i = 0;
@@ -204,15 +94,15 @@ function convertFlatSpiralColorArrayToTallSNColorArray(flatSpiralColorArray, hei
 	return tallSNColorArray;
 }
 
-function convertTallSNColorArrayToTallNSColorArray(tallSNColorArray, height) { // note this actually rearranges high to low AND north to south
-	var i = 0;
-	var tallNSColorArray = new Array(9901 * height);
-	while (i < tallSNColorArray.length) {
-		tallNSColorArray[(9901 * height) - 1 - i] = tallSNColorArray[i];
-		i++;
-	}
-	return tallNSColorArray;
-}
+//function convertTallSNColorArrayToTallNSColorArray(tallSNColorArray, height) { // note this actually rearranges high to low AND north to south
+//	var i = 0;
+//	var tallNSColorArray = new Array(9901 * height);
+//	while (i < tallSNColorArray.length) {
+//		tallNSColorArray[(9901 * height) - 1 - i] = tallSNColorArray[i];
+//		i++;
+//	}
+//	return tallNSColorArray;
+//}
 
 function convertTallNSColorArrayToTallSNColorArray(tallNSColorArray, height) {
 	var i = 0;
@@ -224,19 +114,19 @@ function convertTallNSColorArrayToTallSNColorArray(tallNSColorArray, height) {
 	return tallSNColorArray;
 }
 
-function convertTallSNColorArrayToReverseFlatSpiralColorArray(tallSNColorArray, height) {
-	var i = 0;
-	var reverseFlatSpiralColorArray = new Array(9901 * height);
-	var z, calculatedi, pI;
-	while (i < tallSNColorArray.length) {
-		z = Math.floor(i / 9901);
-		pI = i % 9901;
-		calculatedi = getIndexFromXYZH(center_out_mapping[pI][0], center_out_mapping[pI][1], z, height);
-		reverseFlatSpiralColorArray[(9901 * height) - 1 - i] = tallSNColorArray[calculatedi];
-		i++;
-	}
-	return reverseFlatSpiralColorArray;
-}
+//function convertTallSNColorArrayToReverseFlatSpiralColorArray(tallSNColorArray, height) {
+//	var i = 0;
+//	var reverseFlatSpiralColorArray = new Array(9901 * height);
+//	var z, calculatedi, pI;
+//	while (i < tallSNColorArray.length) {
+//		z = Math.floor(i / 9901);
+//		pI = i % 9901;
+//		calculatedi = getIndexFromXYZH(center_out_mapping[pI][0], center_out_mapping[pI][1], z, height);
+//		reverseFlatSpiralColorArray[(9901 * height) - 1 - i] = tallSNColorArray[calculatedi];
+//		i++;
+//	}
+//	return reverseFlatSpiralColorArray;
+//}
 
 function convertReverseFlatSpiralColorArrayToTallSNColorArray(flatSpiralColorArray, height) {
 	var i = 0;
@@ -1513,73 +1403,6 @@ exports.handler = async (event) => {
 			}
 			shapeIndex++;
 		}
-		//		console.log("hexShapes, post-rounding=" + JSON.stringify(hexShapes));
-		// now put in Dynamo
-		//		var txIndexDecimals = (1 * event.params.querystring.transactionIndex) / ROUNDING_AMOUNT;
-//		var compressed = pako.deflate(JSON.stringify(hexShapes), { to: 'string' });
-//		console.log("DONE compressed.length=" + compressed.length);
-		//		var params = {
-		//			TableName: 'EtheriaBuilds',
-		//			Item: {
-		//				'tileIndex': event.params.querystring.tileIndex * 1,
-		//				'blockNumberAndTxIndex': (1 * event.params.querystring.blockNumber) + txIndexDecimals,
-		//				'build': compressed,
-		//				'nameField': hexString
-		//			}
-		//		};
-
-		//			dynamoDB.put(params, function(err, data) {
-		//				if (err) {
-		//					console.log(utils.getHrDate() + " doNameChange Insertion into EtheriaBuilds Error", err);
-		//				}
-		//				else {
-		//					console.log(utils.getHrDate() + " put success.");
-		//
-		//					// update buildIndices globalVar. This is the running list of the indices with actual builds on them
-		//					// so we don't have to grab every build for every tile everytime the explorer or builder is loaded
-		//					var params = {
-		//						TableName: "EtheriaGlobalVars",
-		//						Key: {
-		//							"name": "buildIndices"
-		//						}
-		//					};
-		//
-		//					dynamoDB.get(params, function(err, globalVarEntry) {
-		//						if (err) {
-		//							console.log("Error", err);
-		//							//			reject(err);
-		//						}
-		//						else {
-		//							console.log("Success", JSON.stringify(globalVarEntry));
-		//							var buildIndices = JSON.parse(globalVarEntry.Item.value);
-		//							var bI = 0;
-		//							while (bI < buildIndices.length) {
-		//								console.log("buildIndices[" + bI + "]=" + buildIndices[bI]);
-		//								bI++;
-		//							}
-		//							var buildIndicesSet = new Set(buildIndices); // convert to set to eliminate dupes
-		//							buildIndicesSet.add(tileIndex * 1);
-		//							buildIndices = [...buildIndicesSet]; // back to array
-		//							var params2 = {
-		//								TableName: "EtheriaGlobalVars",
-		//								Item: {
-		//									"name": "buildIndices",
-		//									"value": JSON.stringify(buildIndices)
-		//								}
-		//							};
-		//							dynamoDB.put(params2, function(err, data) { // update
-		//								if (err) {
-		//									console.log(utils.getHrDate() + " error updating buildIndices globalVar", err);
-		//								}
-		//								else {
-		//									console.log(utils.getHrDate() + " success putting buildIndices globalVar");
-		//								}
-		//							});
-		//						}
-		//					});
-		//
-		//				}
-		//			});
 
 		resolve(hexShapes);
 	});
