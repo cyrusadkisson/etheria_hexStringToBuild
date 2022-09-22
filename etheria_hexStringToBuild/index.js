@@ -680,10 +680,8 @@ function isInside(point, vs) {
 
 // col, row are going to be 0,0 here. We can translate the build in the UI later. We shouldn't care here.
 function getPointFromColRowXY(col, row, x, y) {
-	var xpoint = (col - (mapsize - 1) / 2) * tilewidth;
-	if (row % 2 !== 0)
-		xpoint = xpoint + tilewidth / 2;
-	var ypoint = (row - (mapsize - 1) / 2) * tilevert;
+	var xpoint = 0; 
+	var ypoint = 0;
 
 	xpoint = xpoint + x * blockwidth;
 	if (y % 2 !== 0)
@@ -758,7 +756,6 @@ class Point {
 };
 Point.prototype.x = null;
 Point.prototype.y = null;
-
 
 function getChunkOnThisPlane(startingIndex) {
 	soFar.add(startingIndex);
